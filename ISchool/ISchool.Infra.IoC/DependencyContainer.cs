@@ -1,4 +1,8 @@
-﻿using ISchool.Domain.Core.Bus;
+﻿using ISchool.AuthSvc.Application.Contracts;
+using ISchool.AuthSvc.Application.Services;
+using ISchool.AuthSvc.Data.Repository;
+using ISchool.AuthSvc.Domain.Interfaces;
+using ISchool.Domain.Core.Bus;
 using ISchool.Infra.Bus;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -7,9 +11,9 @@ using System;
 
 namespace ISchool.Infra.IoC
 {
-    public class DependencyContainer
+    public static class DependencyContainer
     {
-        public static void RegisterServices(IServiceCollection services)
+        public static void RegisterServices(this IServiceCollection services)
         {
             Log.Logger = new LoggerConfiguration()
             .Enrich.FromLogContext()
@@ -26,12 +30,14 @@ namespace ISchool.Infra.IoC
             //Subscriptions
 
             //Domain Events
-            
+
             //Domain Commands
 
             //Application Services
-            
+            services.AddTransient<IAuthService, AuthService>();
+
             //Data
+            services.AddTransient<IAuthRepository, AuthRepository>();
 
             Log.Information("Registration Completed");
         }
