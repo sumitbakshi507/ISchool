@@ -36,6 +36,7 @@ namespace ISchool.AuthSvc.Api
                 options.UseSqlServer(Configuration.GetConnectionString("AuthSvcDbConnection"));
             });
 
+            services.AddAuthorization();
             services.Configure<KestrelServerOptions>(
                 Configuration.GetSection("Kestrel"));
 
@@ -58,6 +59,8 @@ namespace ISchool.AuthSvc.Api
             services.AddMediatR(typeof(Startup));
 
             RegisterServices(services);
+            services.AddMvcCore()
+                    .AddApiExplorer();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -78,7 +81,6 @@ namespace ISchool.AuthSvc.Api
 
             app.UseRouting();
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

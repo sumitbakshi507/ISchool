@@ -10,7 +10,6 @@
 
   <ItemGroup>
     <PackageReference Include="Ocelot" Version="16.0.1" />
-    <PackageReference Include="Ocelot.Administration" Version="16.0.1" />
   </ItemGroup>
 
 </Project>

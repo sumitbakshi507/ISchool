@@ -21,6 +21,8 @@ namespace ISchool.AuthSvc.Application.Services
 
         private readonly IAuthRepository _authRepository;
 
+        private const int MAX_SESSION_MIN = 20;
+
         public AuthService(ILogger<AuthService> logger, IAuthRepository authRepository) {
             _logger = logger;
             _authRepository = authRepository;
@@ -33,9 +35,11 @@ namespace ISchool.AuthSvc.Application.Services
 
             var login = await _authRepository.Login(authRequest.Email, authRequest.Password, authRequest.Organization);
             DateTime expireDate;
-            var token = this.GenerateToken(login, out expireDate);
+            var fullName = login.FirstName + " " + (!String.IsNullOrEmpty(login.MiddleName) ? login.MiddleName + " " : "") + login.LastName;
+            var token = this.GenerateToken(login, out expireDate, fullName);
             var authResponse = new AuthResponse() { 
                 Email = login.Email,
+                FullName = fullName, 
                 idToken = token,
                 localId = login.Id.ToString(),
                 Mobile = "",
@@ -46,12 +50,12 @@ namespace ISchool.AuthSvc.Application.Services
             return authResponse;
         }
 
-        private string GenerateToken(Login user, out DateTime expireDate)
+        private string GenerateToken(Login user, out DateTime expireDate, string fullName)
         {
-            expireDate = DateTime.Now.AddMinutes(120);
-            var mySecret = "123456";
+            expireDate = DateTime.Now.AddMinutes(MAX_SESSION_MIN);
+            var mySecret = "2b357e9e-eb54-4ba1-973a-e5078dfad90b";
             var mySecurityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(mySecret));
-
+            mySecurityKey.KeyId = mySecret;
             var myIssuer = "ISchoolSomething";
             var myAudience = "ISchoolUsers";
 
@@ -61,17 +65,24 @@ namespace ISchool.AuthSvc.Application.Services
                 Subject = new ClaimsIdentity(new Claim[]
                 {
                     new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                    new Claim(ClaimTypes.Name, user.Email.ToString()),
-                    new Claim(ClaimTypes.PrimaryGroupSid, user.Organization.ToString())
+                    new Claim(ClaimTypes.Name, fullName),
+                    new Claim(ClaimTypes.Email, user.Email)
                 }),
                 Expires = expireDate,
                 Issuer = myIssuer,
                 Audience = myAudience,
+                IssuedAt = DateTime.Now, 
                 SigningCredentials = new SigningCredentials(mySecurityKey, SecurityAlgorithms.HmacSha256Signature)
             };
-
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
+            try
+            {
+                var token = tokenHandler.CreateToken(tokenDescriptor);
+                return tokenHandler.WriteToken(token);
+            }
+            catch (Exception ex) {
+                Log.Error(ex.Message);
+                return "TokenError";
+            }
         }
     }
 }

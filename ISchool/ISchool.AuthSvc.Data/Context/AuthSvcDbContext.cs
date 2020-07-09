@@ -17,12 +17,6 @@ namespace ISchool.AuthSvc.Data.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.RemovePluralizingTableNameConvention();
-            modelBuilder.Entity<Login>()
-                .Property(s => s.CreatedDate)
-                .HasDefaultValueSql("GETDATE()");
-            modelBuilder.Entity<LoginLog>()
-               .Property(s => s.LoginDate)
-               .HasDefaultValueSql("GETDATE()");
         }
 
         public DbSet<Login> Logins { get; set; }

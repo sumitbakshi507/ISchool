@@ -21,11 +21,7 @@
                     "Port": 8002
                 }
             ],
-            "UpstreamPathTemplate": "/auth-api/{catchAll}",
-            "AuthenticationOptions": {
-                "AuthenticationProviderKey": "TestKey",
-                "AllowedScopes": []
-            }
+            "UpstreamPathTemplate": "/auth-api/{catchAll}"
         }
     ],
     "GlobalConfiguration": {

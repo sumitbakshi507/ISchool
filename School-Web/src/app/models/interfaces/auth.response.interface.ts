@@ -7,4 +7,5 @@ export interface IAuthResponse {
   role: UserType;
   expiresIn: string;
   localId: string;
+  fullName: string;
 }

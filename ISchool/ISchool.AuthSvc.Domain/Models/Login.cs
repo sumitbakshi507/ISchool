@@ -22,9 +22,16 @@ namespace ISchool.AuthSvc.Domain.Models
 
         public int LoginStatus { get; set; }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime CreatedDate { get; set; }
 
         public DateTime LastLoginDate { get; set; }
+
+        public string FirstName { get; set; }
+
+        public string LastName { get; set; }
+
+        public string MiddleName { get; set; }
+
+        public DateTime DateOfBirth { get; set; }
     }
 }

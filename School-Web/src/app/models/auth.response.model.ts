@@ -9,6 +9,7 @@ export class AuthResponse {
   _token: string;
   // tslint:disable-next-line:variable-name
   _tokenExpirationDate: Date;
+  fullName: string;
 
 constructor(
   email: string,
@@ -18,14 +19,16 @@ constructor(
   // tslint:disable-next-line:variable-name
   _token: string,
   // tslint:disable-next-line:variable-name
-  _expirationDate: Date
-) {
+  _expirationDate: Date,
+  fullName: string
+  ) {
   this.email = email;
   this.userId = userId;
   this.mobile = mobile;
   this.role = role;
   this._token = _token;
   this._tokenExpirationDate = _expirationDate;
+  this.fullName = fullName;
 }
 
 get token() {

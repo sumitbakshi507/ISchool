@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from './../../../services/auth.service';
 import { AuthRequest } from '../../../models/auth.request.model';
 import { Subscription } from 'rxjs';
+import { AuthResponse } from './../../../models/auth.response.model';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +17,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   private formSubmitAttempt: boolean;
   private returnUrl: string;
   loginSubscription: Subscription;
-
+  userSubs: Subscription;
+  isAuthenticated: boolean;
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
@@ -26,6 +28,13 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.authService.autoLogin();
+    this.userSubs = this.authService.user.subscribe((user: AuthResponse) => {
+      this.isAuthenticated = !!user;
+      if (this.isAuthenticated) {
+        this.router.navigate(['dashboard']);
+      }
+    });
     this.form = this.fb.group({
       username: ['sumit.bakshi507@gmail.com', Validators.email],
       password: ['a123456', Validators.required]
@@ -42,8 +51,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         const authRequest = new AuthRequest(username, password, 'test', 'test');
 
         this.loginSubscription = this.authService.login(authRequest).subscribe(resp => {
-          console.log('Success');
-          console.log(resp);
+          this.router.navigate(['/dashboard']);
         },
         (err) => {
           console.log(err);
@@ -60,6 +68,9 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     if (this.loginSubscription) {
       this.loginSubscription.unsubscribe();
+    }
+    if (this.userSubs) {
+      this.userSubs.unsubscribe();
     }
   }
 }

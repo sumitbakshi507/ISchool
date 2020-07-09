@@ -42,7 +42,8 @@ export class AuthService {
             resData.idToken,
             resData.localId,
             resData.mobile,
-            resData.role);
+            resData.role,
+            resData.fullName);
         })
       );
   }
@@ -53,10 +54,11 @@ export class AuthService {
     idToken: string,
     localId: string,
     mobile: string,
-    role: UserType
+    role: UserType,
+    fullName: string
     ) {
     const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
-    const user = new AuthResponse(email, localId, mobile, role, idToken, expirationDate);
+    const user = new AuthResponse(email, localId, mobile, role, idToken, expirationDate, fullName);
     this.user.next(user);
     this.autoLogout(expiresIn * 1000);
     localStorage.setItem('userData', JSON.stringify(user));
@@ -85,7 +87,8 @@ export class AuthService {
       userData.mobile,
       userData.role,
       userData._token,
-      new Date(userData._tokenExpirationDate)
+      new Date(userData._tokenExpirationDate),
+      userData.fullName
     );
 
     if (loadedUser.token) {

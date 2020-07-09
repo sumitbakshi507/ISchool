@@ -12,7 +12,6 @@ namespace ISchool.AuthSvc.Domain.Models
 
         public string Email { get; set; }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime LoginDate { get; set; }
 
         public string Message { get; set; }

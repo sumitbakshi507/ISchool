@@ -21,10 +21,10 @@ export class AppComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.authService.autoLogin();
     this.titleService.setTitle('Welcome to Online School');
     this.userSubs = this.authService.user.subscribe((user: AuthResponse) => {
       this.isAuthenticated = !!user;
-      console.log(this.isAuthenticated);
       if (!this.isAuthenticated) {
         this.route.navigate(['auth']);
       }
