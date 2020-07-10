@@ -1,10 +1,12 @@
 ﻿using ISchool.AuthSvc.Application.Contracts;
 using ISchool.AuthSvc.Application.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -32,6 +34,16 @@ namespace ISchool.AuthSvc.Api.Controllers
         {
             _logger.LogInformation("Login Request" + authRequest);
             return await _authService.Login(authRequest);
+        }
+
+        [HttpGet]
+        [Authorize]
+        [Route("AuthorizedMenus")]
+        public async Task<IList<string>> GetAuthorizedMenus()
+        {
+            var userRole = this.Request.HttpContext.User.Claims.FirstOrDefault(t => t.Type == "role");
+            _logger.LogInformation("GetAuthorizedMenus" + userRole.Value);
+            return await _authService.GetAuthorizedMenus(userRole.Value);
         }
     }
 }

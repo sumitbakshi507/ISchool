@@ -4,6 +4,7 @@ import { AuthService } from './services/auth.service';
 import { AuthResponse } from './models/auth.response.model';
 import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-root',
@@ -17,12 +18,18 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(
     private authService: AuthService,
     private route: Router,
-    private titleService: Title
-  ) {}
+    private titleService: Title,
+    private translate: TranslateService
+  ) {
+    translate.setDefaultLang('en');
+  }
 
   ngOnInit() {
     this.authService.autoLogin();
-    this.titleService.setTitle('Welcome to Online School');
+    this.translate.get('main.title').subscribe(title => {
+      this.titleService.setTitle(title);
+    });
+
     this.userSubs = this.authService.user.subscribe((user: AuthResponse) => {
       this.isAuthenticated = !!user;
       if (!this.isAuthenticated) {

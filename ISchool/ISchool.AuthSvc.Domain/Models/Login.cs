@@ -32,6 +32,8 @@ namespace ISchool.AuthSvc.Domain.Models
 
         public string MiddleName { get; set; }
 
+        public int Role { get; set; }
+
         public DateTime DateOfBirth { get; set; }
     }
 }

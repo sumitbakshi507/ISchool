@@ -7,15 +7,15 @@
   </a>
   <mat-menu #appMenu="matMenu">
     <ng-template matMenuContent let-name="name">
-      <a mat-menu-item>Setup</a>
+      <a mat-menu-item *ngFor="let m of menus" (click)="menuClick(m)">{{ 'main.menus.' + m | translate }}</a>
     </ng-template>
   </mat-menu>
-  <span>{{title}}</span>
+  <span>{{title}} <i *ngIf="isAuthenticated">- {{user.fullName}}</i></span>
     <div class="spacer"></div>
     <mat-menu #appRightMenu="matMenu">
       <ng-template matMenuContent let-name="name">
-        <a mat-menu-item>{{name}}</a>
-        <a mat-menu-item (click)="onLogOut()">Log off</a>
+        <a mat-menu-item (click)="menuClick('profile')">{{ 'main.profile' | translate }}</a>
+        <a mat-menu-item (click)="onLogOut()">{{ 'main.logout' | translate }}</a>
       </ng-template>
     </mat-menu>
     <a mat-icon-button [matMenuTriggerFor]="appRightMenu" [matMenuTriggerData]="{name: user.fullName}" *ngIf="isAuthenticated">

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ISchool.AuthSvc.Data.Context;
 using ISchool.Domain.Core.Bus;
+using ISchool.Extensions;
 using ISchool.Infra.IoC;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -71,7 +72,7 @@ namespace ISchool.AuthSvc.Api
                 app.UseDeveloperExceptionPage();
             }
 
-            //app.UseMiddleware<AuthMiddleware>();
+            app.UseMiddleware<AuthMiddleware>();
             app.UseCors("AllowAllHeaders");
             app.UseSwagger();
             app.UseSwaggerUI(c =>

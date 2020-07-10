@@ -48,6 +48,10 @@ export class AuthService {
       );
   }
 
+  loadMenus(){
+    return this.http.get<Array<string>>(environment.api + 'auth-api/AuthorizedMenus');
+  }
+
   private handleAuthentication(
     email: string,
     expiresIn: number,

@@ -1,0 +1,17 @@
+{
+  "main": {
+      "title": "Welcome to Online School",
+      "profile": "Profile",
+      "logout": "Logout",
+      "menus": {
+        "ClassRooms": "Class Rooms",
+        "Classes": "Classes",
+        "Students": "Students",
+        "Teachers": "Teachers",
+        "Calenders": "Calenders",
+        "CenterAdmins": "Center Admins",
+        "MyCalender": "My Calender",
+        "Tests": "Tests"
+      }
+  }
+}

@@ -9,5 +9,6 @@ namespace ISchool.AuthSvc.Application.Contracts
     public interface IAuthService
     {
         Task<AuthResponse> Login(AuthRequest authRequest);
+        Task<IList<string>> GetAuthorizedMenus(string role);
     }
 }

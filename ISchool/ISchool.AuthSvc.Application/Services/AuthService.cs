@@ -8,6 +8,7 @@ using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading;
@@ -44,7 +45,7 @@ namespace ISchool.AuthSvc.Application.Services
                 localId = login.Id.ToString(),
                 Mobile = "",
                 expiresIn = expireDate.Subtract(DateTime.Now).Milliseconds,
-                Role = "Web"
+                Role = ((UserRoleType)login.Role).ToString()
             };
 
             return authResponse;
@@ -66,7 +67,8 @@ namespace ISchool.AuthSvc.Application.Services
                 {
                     new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                     new Claim(ClaimTypes.Name, fullName),
-                    new Claim(ClaimTypes.Email, user.Email)
+                    new Claim(ClaimTypes.Email, user.Email),
+                    new Claim(ClaimTypes.Role, ((UserRoleType)user.Role).ToString())
                 }),
                 Expires = expireDate,
                 Issuer = myIssuer,
@@ -83,6 +85,49 @@ namespace ISchool.AuthSvc.Application.Services
                 Log.Error(ex.Message);
                 return "TokenError";
             }
+        }
+
+        public async Task<IList<string>> GetAuthorizedMenus(string role)
+        {
+            var menus = new List<string>();
+            var userRole = UserRoleType.Parse(typeof(UserRoleType), role);
+
+            await Task.Run(() =>
+            {
+                switch (userRole) {
+                    case UserRoleType.Admin:
+                        menus.Add("ClassRooms");
+                        menus.Add("Classes");
+                        menus.Add("Students");
+                        menus.Add("Teachers");
+                        menus.Add("Calenders");
+                        menus.Add("CenterAdmins");
+                        break;
+                    case UserRoleType.CenterAdmin:
+                        menus.Add("ClassRooms");
+                        menus.Add("Classes");
+                        menus.Add("Students");
+                        menus.Add("Teachers");
+                        menus.Add("Calenders");
+                        break;
+                    case UserRoleType.Head:
+                        menus.Add("ClassRooms");
+                        menus.Add("Calenders");
+                        break;
+                    case UserRoleType.Student:
+                        menus.Add("MyCalender");
+                        menus.Add("ClassRooms");
+                        menus.Add("Classes");
+                        break;
+                    case UserRoleType.Teacher:
+                        menus.Add("MyCalender");
+                        menus.Add("ClassRooms");
+                        menus.Add("Classes");
+                        break;
+                }
+            });
+
+            return menus.ToList();
         }
     }
 }
