@@ -24,7 +24,7 @@ namespace ISchool.AuthSvc.Domain.Models
 
         public DateTime CreatedDate { get; set; }
 
-        public DateTime LastLoginDate { get; set; }
+        public DateTime? LastLoginDate { get; set; }
 
         public string FirstName { get; set; }
 
