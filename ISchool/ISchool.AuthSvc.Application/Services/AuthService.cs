@@ -1,7 +1,9 @@
 ﻿using ISchool.AuthSvc.Application.Contracts;
 using ISchool.AuthSvc.Application.Models;
+using ISchool.AuthSvc.Domain.Commands;
 using ISchool.AuthSvc.Domain.Interfaces;
 using ISchool.AuthSvc.Domain.Models;
+using ISchool.Domain.Core.Bus;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
@@ -22,11 +24,14 @@ namespace ISchool.AuthSvc.Application.Services
 
         private readonly IAuthRepository _authRepository;
 
+        private readonly IEventBus _bus;
+
         private const int MAX_SESSION_MIN = 20;
 
-        public AuthService(ILogger<AuthService> logger, IAuthRepository authRepository) {
+        public AuthService(ILogger<AuthService> logger, IAuthRepository authRepository, IEventBus bus) {
             _logger = logger;
             _authRepository = authRepository;
+            _bus = bus;
             _logger.LogInformation(Thread.CurrentThread.ManagedThreadId + ". AuthService Intiated");
         }
 
@@ -47,6 +52,15 @@ namespace ISchool.AuthSvc.Application.Services
                 expiresIn = expireDate.Subtract(DateTime.Now).Milliseconds,
                 Role = ((UserRoleType)login.Role).ToString()
             };
+
+            var createNotificationCommand = new CreateNotificationCommand(
+                "Successful login", 
+                "Successful login for " + login.Email, login.Email, "IStudent", 
+                new List<string>(),
+                null
+                );
+
+            await _bus.SendCommand(createNotificationCommand);
 
             return authResponse;
         }

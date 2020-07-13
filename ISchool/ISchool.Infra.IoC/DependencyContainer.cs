@@ -1,6 +1,8 @@
 ﻿using ISchool.AuthSvc.Application.Contracts;
 using ISchool.AuthSvc.Application.Services;
 using ISchool.AuthSvc.Data.Repository;
+using ISchool.AuthSvc.Domain.CommandHandlers;
+using ISchool.AuthSvc.Domain.Commands;
 using ISchool.AuthSvc.Domain.Interfaces;
 using ISchool.Domain.Core.Bus;
 using ISchool.Infra.Bus;
@@ -30,6 +32,7 @@ namespace ISchool.Infra.IoC
             //Subscriptions
 
             //Domain Events
+            services.AddTransient<IRequestHandler<CreateNotificationCommand, bool>, CreateNotificationCommandHandler>();
 
             //Domain Commands
 
