@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   api: 'http://localhost:5000/',
-  defaultOrganization: 'Test'
+  defaultOrganization: 'Test',
+  chatApi: 'https://localhost:9993/'
 };
 
 /*

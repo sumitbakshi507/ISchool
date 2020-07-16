@@ -5,6 +5,10 @@ import { HomeComponent } from './home/home.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AppMaterialModule } from '../../app-material.module';
+import { CalendarDatePipe } from 'src/app/components/pipes/calendar-date.pipe';
+import { CalendarWeekViewComponent } from './views/calendar-week-view/calendar-week-view.component';
+import { CalendarDayViewComponent } from './views/calendar-day-view/calendar-day-view.component';
+import { CalendarMonthViewComponent } from './views/calendar-month-view/calendar-month-view.component';
 
 const routes: Routes = [{
   path: '',
@@ -17,7 +21,11 @@ const routes: Routes = [{
 
 @NgModule({
   declarations: [
-    HomeComponent
+    HomeComponent,
+    CalendarDatePipe,
+    CalendarWeekViewComponent,
+    CalendarDayViewComponent,
+    CalendarMonthViewComponent
   ],
   imports: [
     CommonModule,
