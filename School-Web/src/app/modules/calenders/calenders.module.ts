@@ -9,6 +9,7 @@ import { CalendarDatePipe } from 'src/app/components/pipes/calendar-date.pipe';
 import { CalendarWeekViewComponent } from './views/calendar-week-view/calendar-week-view.component';
 import { CalendarDayViewComponent } from './views/calendar-day-view/calendar-day-view.component';
 import { CalendarMonthViewComponent } from './views/calendar-month-view/calendar-month-view.component';
+import { FormatDatePipe } from 'src/app/components/pipes/format-date.pipe';
 
 const routes: Routes = [{
   path: '',
@@ -23,6 +24,7 @@ const routes: Routes = [{
   declarations: [
     HomeComponent,
     CalendarDatePipe,
+    FormatDatePipe,
     CalendarWeekViewComponent,
     CalendarDayViewComponent,
     CalendarMonthViewComponent

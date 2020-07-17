@@ -12,7 +12,7 @@ import { colors } from './../../../models/calendar.event.model';
 })
 export class HomeComponent implements OnInit {
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
-  view: CalendarView = CalendarView.Week;
+  view: CalendarView = CalendarView.Month;
   activeDayIsOpen: boolean;
   CalendarView = CalendarView;
   refresh: Subject<any> = new Subject();

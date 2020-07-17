@@ -30,7 +30,7 @@ export class CalendarDatePipe implements PipeTransform {
     const startDate = (moment(currentDate).subtract(moment(currentDate).weekday(), 'day'));
     const endDate = moment(currentDate).add(6 - moment(currentDate).weekday() , 'day');
     const label = startDate.format('D') + ' ' + startDate.format('MMM')
-                  + ' - ' + endDate.format('D') + ' ' + endDate.format('MMM') + ', ' + endDate.format('YY');
+                  + ' - ' + endDate.format('D') + ' ' + endDate.format('MMM') + ', ' + endDate.format('YYYY');
     return label;
   }
 }

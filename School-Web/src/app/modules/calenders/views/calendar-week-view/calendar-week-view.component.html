@@ -1,1 +1,47 @@
-<p>calendar-week-view works!</p>
+<div role="grid" class="cal-week-view">
+  <div role="row" class="cal-day-headers">
+    <div mwldroppable=""  *ngFor="let d of dates"
+      dragoverclass="cal-drag-over"
+      tabindex="0" role="columnheader"
+      class="cal-header cal-past cal-weekend">
+      <b>{{d | formatDate: 'ddd'}}</b><br>
+      <span>
+        {{d | formatDate: 'MMM D'}}
+      </span>
+    </div>
+  </div>
+  <div class="cal-time-events">
+    <div class="cal-time-label-column">
+      <div class="cal-hour" *ngFor="let h of getHours(viewDate)">
+        <div class="cal-hour-segment cal-hour-start" aria-hidden="true" style="height: 30px;">
+          <div class="cal-time">
+            {{h | formatDate: 'hh A'}}
+          </div>
+        </div>
+        <div class="cal-hour-segment cal-after-hour-start" aria-hidden="true" style="height: 30px;">
+          <div class="cal-time">
+            {{h | formatDate: 'hh A'}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="cal-day-columns">
+      <div class="cal-day-column" *ngFor="let d of dates">
+        <div class="cal-events-container">
+          <!---->
+        </div>
+        <div class="cal-hour"  *ngFor="let h of getHours(d)">
+          <div class="cal-hour-segment cal-hour-start" aria-hidden="true" style="height: 30px;">
+            <!---->
+          </div>
+          <div class="cal-hour-segment cal-after-hour-start" aria-hidden="true" style="height: 30px;">
+            <!---->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<br>
+<br>

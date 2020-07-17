@@ -1,1 +1,24 @@
-<p>calendar-month-view works!</p>
+<div role="grid" class="cal-month-view">
+  <div role="row" class="cal-cell-row cal-header">
+    <div tabindex="0" *ngFor="let d of dates" role="columnheader" class="cal-cell cal-past">
+      {{d | formatDate: 'ddd'}}
+    </div>
+  </div>
+  <div class="cal-cell-row" *ngFor="let r of rowData">
+    <div mwldroppable=""  *ngFor="let d of r.rowDates" dragoverclass="cal-drag-over"
+    [ngClass]="{'cal-past':d<viewDate,
+    'cal-future':d>viewDate,
+      'cal-out-month': d.getMonth()!=viewDate.getMonth(),
+      'cal-today': d.getDate()== viewDate.getDate()}
+      "
+       class="cal-cell cal-day-cell" tabindex="0">
+        <div class="cal-cell-top">
+          <span aria-hidden="true">
+            <!---->
+            <span class="cal-day-number">{{d | formatDate: 'DD'}}</span>
+          </span>
+        </div>
+    </div>
+
+  </div>
+</div>
